@@ -2,6 +2,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework import filters, permissions
+from rest_framework.throttling import ScopedRateThrottle
 from django.db.models import Avg
 from .serializers import *
 from .models import *
@@ -13,6 +14,8 @@ class ReytingViewSet(ModelViewSet):
 
     allowed_methods = ['GET','POST','PUT']
     http_method_names = ['get','post','put']
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'base'
 
 class SohaViewSet(ModelViewSet):
     serializer_class = SohaSerializer
@@ -24,9 +27,10 @@ class SohaViewSet(ModelViewSet):
 
     #making queries with slug field
     lookup_field = 'slug'
-
     filter_backends = [filters.SearchFilter,]
-    search_fields = ['id','name','age','country','city','username',]
+    search_fields = ['id','name',]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'base'
 
     @action(detail=True, methods=['GET','POST'])
     def questions(self, request, slug):
@@ -88,7 +92,9 @@ class QuestionViewSet(ModelViewSet):
     allowed_methods = ['GET','POST','PUT']
     http_method_names = ['get','post','put']
     filter_backends = [filters.SearchFilter,]
-    search_fields = ['id','name','age','country','city','username',]
+    search_fields = ['id','question_name',]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'base'
 
 class AnswerViewSet(ModelViewSet):
     serializer_class = AnswerSerializer
@@ -98,4 +104,6 @@ class AnswerViewSet(ModelViewSet):
     allowed_methods = ['GET','POST','PUT']
     http_method_names = ['get','post','put']
     filter_backends = [filters.SearchFilter,]
-    search_fields = ['id','name','age','country','city','username',]
+    search_fields = ['id','answer']
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'base'
