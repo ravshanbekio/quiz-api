@@ -51,6 +51,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
+    'DEFAULT_THROTTLE_RATES':{
+        'base':'40/minute'
+    }
 }
 
 MIDDLEWARE = [

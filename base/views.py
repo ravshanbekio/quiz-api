@@ -83,27 +83,3 @@ class SohaViewSet(ModelViewSet):
         }
 
         return Response(result_data)
-
-class QuestionViewSet(ModelViewSet):
-    serializer_class = ReytingSerializer
-    queryset = Question.objects.select_related()
-    permission_classes = [permissions.IsAuthenticated]
-
-    allowed_methods = ['GET','POST','PUT']
-    http_method_names = ['get','post','put']
-    filter_backends = [filters.SearchFilter,]
-    search_fields = ['id','question_name',]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'base'
-
-class AnswerViewSet(ModelViewSet):
-    serializer_class = AnswerSerializer
-    queryset = Answer.objects.select_related()
-    permission_classes = [permissions.IsAuthenticated]
-
-    allowed_methods = ['GET','POST','PUT']
-    http_method_names = ['get','post','put']
-    filter_backends = [filters.SearchFilter,]
-    search_fields = ['id','answer']
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'base'
